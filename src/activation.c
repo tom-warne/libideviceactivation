@@ -1205,7 +1205,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 
 	// check arguments
 	if (!request || !response) {
-		fprintf("no response or request");
+		printf("no response or request");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
@@ -1221,7 +1221,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	struct curl_slist* slist = NULL;
 
 	if (!handle) {
-		fprintf("handle error");
+		printf("handle error");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
@@ -1234,7 +1234,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 			curl_easy_setopt(handle, CURLOPT_USERAGENT, IDEVICE_ACTIVATION_USER_AGENT_ITUNES);
 			break;
 		default:
-			fprintf("client error");
+			printf("client error");
 			result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 			goto cleanup;
 	}
@@ -1279,7 +1279,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 						plist_get_string_val(value_node, &svalue);
 					} else {
 						// only strings supported
-						fprintf("unsupported field type error");
+						printf("unsupported field type error");
 						free(postdata);
 						result = IDEVICE_ACTIVATION_E_UNSUPPORTED_FIELD_TYPE;
 						goto cleanup;
