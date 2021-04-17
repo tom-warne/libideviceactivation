@@ -1,4 +1,4 @@
-/**
+g/**
  * @file activation.c
  *
  * Copyright (c) 2016-2019 Nikias Bassen, All Rights Reserved.
