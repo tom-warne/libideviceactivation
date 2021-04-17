@@ -1286,6 +1286,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 						plist_get_string_val(value_node, &svalue);
 					} else {
 						// only strings supported
+						fprintf("unsupported field type error");
 						free(postdata);
 						result = IDEVICE_ACTIVATION_E_UNSUPPORTED_FIELD_TYPE;
 						goto cleanup;
