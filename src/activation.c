@@ -550,7 +550,6 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 			return idevice_activation_parse_html_response(response);
 		default:
 			printf("unknown content type\n");
-			printf("%s\n",&response);
 			return IDEVICE_ACTIVATION_E_UNKNOWN_CONTENT_TYPE;
 	}
 
@@ -1208,14 +1207,12 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	printf("send request test\n");
 	// check arguments
 	if (!request || !response) {
-		printf("no response or request");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
 	plist_dict_iter iter = NULL;
 	plist_dict_new_iter(request->fields, &iter);
 	if (!iter) {
-		printf("plist error\n");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
@@ -1224,7 +1221,6 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	struct curl_slist* slist = NULL;
 
 	if (!handle) {
-		printf("handle error\n");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
@@ -1282,7 +1278,6 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 						plist_get_string_val(value_node, &svalue);
 					} else {
 						// only strings supported
-						printf("unsupported field type error\n");
 						free(postdata);
 						result = IDEVICE_ACTIVATION_E_UNSUPPORTED_FIELD_TYPE;
 						goto cleanup;
@@ -1322,7 +1317,6 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, slist);
 	}
 	else {
-		printf("request error\n");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
@@ -1330,6 +1324,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	idevice_activation_response_t tmp_response = NULL;
 	result = idevice_activation_response_new(&tmp_response);
 	if (result != IDEVICE_ACTIVATION_E_SUCCESS) {
+		printf("Failed to parse new response\n");
 		goto cleanup;
 	}
 
