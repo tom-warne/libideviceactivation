@@ -528,6 +528,7 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 			plist_from_xml(response->raw_content, response->raw_content_size, &plist);
 
 			if (plist == NULL) {
+				printf("NULL plist");
 				return IDEVICE_ACTIVATION_E_PLIST_PARSING_ERROR;
 			}
 
@@ -548,6 +549,7 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 		case IDEVICE_ACTIVATION_CONTENT_TYPE_HTML:
 			return idevice_activation_parse_html_response(response);
 		default:
+			printf("unknown content type");
 			return IDEVICE_ACTIVATION_E_UNKNOWN_CONTENT_TYPE;
 	}
 
