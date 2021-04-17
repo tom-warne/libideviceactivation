@@ -602,11 +602,11 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 			if (strcmp(header, "Content-Type") == 0) {
 				if (strcmp(value, "text/xml") == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
-				} else if (strcmp(value, "application/xml" == 0 ||strcmp(value, "application/xml\; charset=UTF-8") == 0 )  {
+				} else if (strcmp(value, "application/xml" == 0)  {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
-				} else if (strcmp(value, "application/x-buddyml") == 0 ||strcmp(value, "application/x-buddyml\; charset=UTF-8") == 0 ) {
+				} else if (strcmp(value, "application/x-buddyml") == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_BUDDYML;
-				} else if (strcmp(value, "text/html") == 0 ||strcmp(value, "text/html\; charset=UTF-8") == 0 ) {
+				} else if (strcmp(value, "text/html") == 0 || strcmp(value, "text/html; charset=utf-8") == 0 ) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_HTML;
 				}
 				else{
