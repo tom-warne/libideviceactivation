@@ -615,6 +615,9 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_BUDDYML;
 				} else if (strncasecmp(value, "text/html", 9) == 0 || strcmp(value, "text/html; charset=UTF-8") == 0 || strcmp(value, "text/html; charset=utf-8") == 0 ) { //catalina and big sur fix) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_HTML;
+				}else{
+					printf("Unknown type");
+					printf("%s",value);
 				}
 			}
 			plist_dict_set_item(response->headers, header, plist_new_string(value));
