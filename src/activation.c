@@ -550,7 +550,7 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 			return idevice_activation_parse_html_response(response);
 		default:
 			printf("unknown content type\n");
-			printf("%s\n",&response->content_type);
+			printf("%s\n",&response);
 			return IDEVICE_ACTIVATION_E_UNKNOWN_CONTENT_TYPE;
 	}
 
