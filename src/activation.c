@@ -1212,12 +1212,14 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 
 	// check arguments
 	if (!request || !response) {
+		fprintf("no response or request");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
 	plist_dict_iter iter = NULL;
 	plist_dict_new_iter(request->fields, &iter);
 	if (!iter) {
+		fprintf("plist error");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
@@ -1226,6 +1228,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	struct curl_slist* slist = NULL;
 
 	if (!handle) {
+		fprintf("handle error");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
@@ -1238,6 +1241,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 			curl_easy_setopt(handle, CURLOPT_USERAGENT, IDEVICE_ACTIVATION_USER_AGENT_ITUNES);
 			break;
 		default:
+			fprintf("client error");
 			result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 			goto cleanup;
 	}
@@ -1321,6 +1325,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, slist);
 	}
 	else {
+		fprintf("request error");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
