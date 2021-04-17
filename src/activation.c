@@ -1349,6 +1349,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 
 	result = idevice_activation_parse_raw_response(tmp_response);
 	if (result != IDEVICE_ACTIVATION_E_SUCCESS) {
+		printf("Failed to parse raw response\n");
 		goto cleanup;
 	}
 
