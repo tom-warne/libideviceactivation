@@ -1212,7 +1212,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	plist_dict_iter iter = NULL;
 	plist_dict_new_iter(request->fields, &iter);
 	if (!iter) {
-		fprintf("plist error");
+		printf("plist error");
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 	}
 
@@ -1319,7 +1319,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, slist);
 	}
 	else {
-		fprintf("request error");
+		printf("request error");
 		result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 		goto cleanup;
 	}
