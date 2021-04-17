@@ -451,6 +451,7 @@ int main(int argc, char *argv[])
 							if (MOBILEACTIVATION_E_SUCCESS != mobileactivation_activate_with_session(ma, record, headers)) {
 								plist_free(headers);
 								fprintf(stderr, "Failed to activate device with record.\n");
+								printf("Failed at session mode");
 								result = EXIT_FAILURE;
 								goto cleanup;
 							}
@@ -458,6 +459,7 @@ int main(int argc, char *argv[])
 						} else {
 							if (MOBILEACTIVATION_E_SUCCESS != mobileactivation_activate(ma, record)) {
 								fprintf(stderr, "Failed to activate device with record.\n");
+								printf("Failed totally");
 								result = EXIT_FAILURE;
 								goto cleanup;
 							}
@@ -477,6 +479,7 @@ int main(int argc, char *argv[])
 								free(strval);
 							}
 							if (!success) {
+								printf("Failed on lockdown");
 								fprintf(stderr, "Failed to activate device with record.\n");
 								result = EXIT_FAILURE;
 								goto cleanup;
