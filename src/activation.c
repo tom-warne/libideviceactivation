@@ -608,6 +608,9 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_BUDDYML;
 				} else if (strcmp(value, "text/html") == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_HTML;
+				}else{
+					printf("Unknown type");
+					printf("%s",value);
 				}
 			}
 			plist_dict_set_item(response->headers, header, plist_new_string(value));
