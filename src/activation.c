@@ -1202,7 +1202,7 @@ IDEVICE_ACTIVATION_API int idevice_activation_response_has_errors(idevice_activa
 IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_request(idevice_activation_request_t request, idevice_activation_response_t* response)
 {
 	idevice_activation_error_t result = IDEVICE_ACTIVATION_E_SUCCESS;
-
+	printf("send request test");
 	// check arguments
 	if (!request || !response) {
 		printf("no response or request");
