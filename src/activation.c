@@ -596,7 +596,7 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 			}
 		}
 		if (value) {
-			if (strcmp(header, "Content-Type") == 0 || strcmp(header, "content-type") == 0) || strcmp(header, "CONTENT-TYPE") == 0)) {//fix for big sur and catalina
+			if (strcmp(header, "Content-Type") == 0 || strcmp(header, "content-type") == 0) || strcmp(header, "CONTENT-TYPE") == 0) {//fix for big sur and catalina
 				if (strcmp(value, "text/xml") == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
 				} else if (strcmp(value, "application/xml") == 0)  {
