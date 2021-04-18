@@ -52,7 +52,7 @@ static void print_usage(int argc, char **argv)
 	char *name = NULL;
 
 	name = strrchr(argv[0], '/');
-	printf("This is the patched ideviceactivation by OliTheRepairDude");
+	printf("This is the patched ideviceactivation by OliTheRepairDude\n");
 	printf("Usage: %s COMMAND [OPTIONS]\n", (name ? name + 1: argv[0]));
 	printf("\n");
 	printf("Activate or deactivate a device.\n");
