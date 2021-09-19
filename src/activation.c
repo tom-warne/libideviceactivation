@@ -1,5 +1,5 @@
 /**
- * @file activation.c test 1111111
+ * @file activation.c
  *
  * Copyright (c) 2016-2019 Nikias Bassen, All Rights Reserved.
  * Copyright (c) 2014-2015 Martin Szulecki, All Rights Reserved.
@@ -50,8 +50,8 @@
 #endif
 
 #include <libideviceactivation.h>
-#include <libideviceactivation.h>
-#define IDEVICE_ACTIVATION_USER_AGENT_IOS "iOS Device Activator (MobileActivation-20 built on Jan 15 2012 at 19:07:28)"
+
+#define IDEVICE_ACTIVATION_USER_AGENT_IOS "iOS Device Activator (MobileActivation-592.103.2)"
 #define IDEVICE_ACTIVATION_USER_AGENT_ITUNES "iTunes/11.1.4 (Macintosh; OS X 10.9.1) AppleWebKit/537.73.11"
 #define IDEVICE_ACTIVATION_DEFAULT_URL "https://albert.apple.com/deviceservices/deviceActivation"
 #define IDEVICE_ACTIVATION_DRM_HANDSHAKE_DEFAULT_URL "https://albert.apple.com/deviceservices/drmHandshake"
@@ -535,6 +535,7 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 			plist_from_xml(response->raw_content, response->raw_content_size, &plist);
 
 			if (plist == NULL) {
+				printf("NULL plist");
 				return IDEVICE_ACTIVATION_E_PLIST_PARSING_ERROR;
 			}
 
@@ -555,6 +556,8 @@ static idevice_activation_error_t idevice_activation_parse_raw_response(idevice_
 		case IDEVICE_ACTIVATION_CONTENT_TYPE_HTML:
 			return idevice_activation_parse_html_response(response);
 		default:
+			printf("unknown content type\n");
+			printf("%s",response);
 			return IDEVICE_ACTIVATION_E_UNKNOWN_CONTENT_TYPE;
 	}
 
@@ -612,18 +615,9 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_BUDDYML;
 				} else if (strncasecmp(value, "text/html", 9) == 0 || strcmp(value, "text/html; charset=UTF-8") == 0 || strcmp(value, "text/html; charset=utf-8") == 0 ) { //catalina and big sur fix) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_HTML;
-				}
-			}
-			//catalina and even big sur fix
-			else if (strcmp(header, "content-type") == 0) {
-				if (strcmp(value, "text/xml") == 0) {
-					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
-				} else if (strcmp(value, "application/xml") == 0)  {
-					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
-				} else if (strcmp(value, "application/x-buddyml") == 0) {
-					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_BUDDYML;
-				} else if (strcmp(value, "text/html") == 0 || strcmp(value, "text/html; charset=UTF-8") == 0  ) {  //catalina and big sur fix
-					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_HTML;
+				}else{
+					printf("Unknown type");
+					printf("%s",value);
 				}
 			}
 			plist_dict_set_item(response->headers, header, plist_new_string(value));
@@ -1221,6 +1215,7 @@ IDEVICE_ACTIVATION_API int idevice_activation_response_has_errors(idevice_activa
 IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_request(idevice_activation_request_t request, idevice_activation_response_t* response)
 {
 	idevice_activation_error_t result = IDEVICE_ACTIVATION_E_SUCCESS;
+	printf("send request test\n");
 	// check arguments
 	if (!request || !response) {
 		return IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
@@ -1249,6 +1244,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 			curl_easy_setopt(handle, CURLOPT_USERAGENT, IDEVICE_ACTIVATION_USER_AGENT_ITUNES);
 			break;
 		default:
+			printf("client error");
 			result = IDEVICE_ACTIVATION_E_INTERNAL_ERROR;
 			goto cleanup;
 	}
@@ -1339,6 +1335,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 	idevice_activation_response_t tmp_response = NULL;
 	result = idevice_activation_response_new(&tmp_response);
 	if (result != IDEVICE_ACTIVATION_E_SUCCESS) {
+		printf("Failed to parse new response\n");
 		goto cleanup;
 	}
 
@@ -1356,11 +1353,12 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1);
 		curl_easy_setopt(handle, CURLOPT_DEBUGFUNCTION, idevice_activation_curl_debug_callback);
 	}
-w
+
 	curl_easy_perform(handle);
 
 	result = idevice_activation_parse_raw_response(tmp_response);
 	if (result != IDEVICE_ACTIVATION_E_SUCCESS) {
+		printf("Failed to parse raw response\n");
 		goto cleanup;
 	}
 
