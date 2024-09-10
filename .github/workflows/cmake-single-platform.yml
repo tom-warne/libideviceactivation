@@ -1,0 +1,52 @@
+name: Build ideviceactivation for Windows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: Build ideviceactivation.exe and ideviceactivation.dll
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          install: >-
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-libimobiledevice
+            mingw-w64-x86_64-libusbmuxd
+            mingw-w64-x86_64-openssl
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-pkg-config
+
+      - name: Install dependencies
+        run: |
+          pacman -S --noconfirm \
+            mingw-w64-x86_64-libimobiledevice \
+            mingw-w64-x86_64-openssl \
+            mingw-w64-x86_64-cmake \
+            mingw-w64-x86_64-pkg-config
+
+      - name: Build the project
+        run: |
+          mkdir build
+          cd build
+          cmake .. -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/usr/local
+          cmake --build . --target install
+          
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ideviceactivation-windows
+          path: |
+            build/ideviceactivation.exe
+            build/ideviceactivation.dll
+
