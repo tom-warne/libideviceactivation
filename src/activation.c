@@ -1,5 +1,5 @@
-g/**
- * @file activation.c
+/**
+ * @file activation.c test
  *
  * Copyright (c) 2016-2019 Nikias Bassen, All Rights Reserved.
  * Copyright (c) 2014-2015 Martin Szulecki, All Rights Reserved.
@@ -1356,7 +1356,7 @@ IDEVICE_ACTIVATION_API idevice_activation_error_t idevice_activation_send_reques
 		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1);
 		curl_easy_setopt(handle, CURLOPT_DEBUGFUNCTION, idevice_activation_curl_debug_callback);
 	}
-
+w
 	curl_easy_perform(handle);
 
 	result = idevice_activation_parse_raw_response(tmp_response);
