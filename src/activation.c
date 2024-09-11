@@ -158,9 +158,24 @@ BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpReserved)
     }
     return 1;
 }
+
 #else
-#warning No compiler support for constructor/destructor attributes, some features might not be available.
+
+static pthread_once_t init_once = PTHREAD_ONCE_INIT;
+static pthread_once_t deinit_once = PTHREAD_ONCE_INIT;
+
+static void __attribute__((constructor)) libideviceactivation_initialize(void)
+{
+    pthread_once(&init_once, internal_libideviceactivation_init);
+}
+
+static void __attribute__((destructor)) libideviceactivation_deinitialize(void)
+{
+    pthread_once(&deinit_once, internal_libideviceactivation_deinit);
+}
+
 #endif
+
 
 static int debug_level = 0;
 
@@ -606,8 +621,8 @@ static size_t idevice_activation_header_callback(void *data, size_t size, size_t
 			}
 		}
 		if (value) {
-			if (strncasecmp(header, "Content-Type", 12) == 0 || strcmp(header, "content-type") == 0 || strcmp(header, "CONTENT-TYPE") == 0) {//fix for big sur and catalina) {
-				if (strncasecmp(value, "text/xml", 8) == 0) {
+			if (strcasecmp(header, "Content-Type", 12) == 0 || strcmp(header, "content-type", 12) == 0 || strcmp(header, "CONTENT-TYPE") == 0) {//fix for big sur and catalina
+				if (strcasecmp(value, "text/xml", 8) == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
 				} else if (strncasecmp(value, "application/xml", 15) == 0) {
 					response->content_type = IDEVICE_ACTIVATION_CONTENT_TYPE_PLIST;
